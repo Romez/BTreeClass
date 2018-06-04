@@ -1,4 +1,4 @@
-import { InOrderBTree } from '../src/index'
+import { InOrderBTree } from '../src'
 
 describe('test', () => {
   const btree = new InOrderBTree()

@@ -1,5 +1,5 @@
 class BTreeNode {
-  constructor (key, data = undefined) {
+  constructor (key, data = {}) {
     this.key = key
     this.data = data
     this.left = null

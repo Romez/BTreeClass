@@ -6,7 +6,7 @@ class BTreePostOrder {
     this._head = null
   }
 
-  add (key, data) {
+  add (key, data = {}) {
     if (!this._head) {
       this._head = new BTreeNode(key, data)
     } else {
@@ -119,13 +119,12 @@ class BTreePostOrder {
   }
 
   * [Symbol.iterator] () {
-    if (this._head)  {
+    if (this._head) {
       const stack = []
 
       stack.push(this._head)
       let prev
       while (stack.length > 0) {
-
         let current = stack[stack.length - 1]
 
         const hasPrevChild = (current.left === prev || current.right === prev)
@@ -133,7 +132,7 @@ class BTreePostOrder {
         const isLeaf = (!current.left && !current.right)
 
         if (hasPrevChild || isLeaf) {
-          yield current.value
+          yield current
 
           stack.pop()
 
@@ -148,7 +147,6 @@ class BTreePostOrder {
           }
         }
       }
-
     }
   }
 }

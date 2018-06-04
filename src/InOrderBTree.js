@@ -6,7 +6,7 @@ class InOrderBTree {
     this._head = null
   }
 
-  add (key, data) {
+  add (key, data = {}) {
     if (!this._head) {
       this._head = new BTreeNode(key, data)
     } else {
@@ -135,7 +135,7 @@ class InOrderBTree {
           }
         }
 
-        yield current.value
+        yield current
 
         if (current.right) {
           current = current.right

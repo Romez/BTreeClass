@@ -1,66 +1,51 @@
-import { PreOrderBTree } from './index'
+import BTreeNode from './BTreeNode'
 
-class BTreeNode {
-  constructor (value) {
-    this.value = value
-    this.left = null
-    this.right = null
-  }
-
-  compareTo (value) {
-    return this.value - value
-  }
-}
-
-class BTree {
+class PreOrderBTree {
   constructor () {
     this._count = 0
-    this._head
+    this._head = null
   }
 
-  add (value) {
+  add (key, data = {}) {
     if (!this._head) {
-      this._head = new BTreeNode(value)
+      this._head = new BTreeNode(key, data)
     } else {
-      this.addTo(this._head, value)
+      this.addTo(this._head, key, data)
     }
     this._count++
   }
 
-  addTo (node, value) {
-    if (node.value > value) {
+  addTo (node, key, data) {
+    if (node.key > key) {
       if (node.left) {
-        this.addTo(node.left, value)
+        this.addTo(node.left, key, data)
       } else {
-        node.left = new BTreeNode(value)
+        node.left = new BTreeNode(key, data)
       }
     } else {
       if (node.right) {
-        this.addTo(node.right, value)
+        this.addTo(node.right, key, data)
       } else {
-        node.right = new BTreeNode(value)
+        node.right = new BTreeNode(key, data)
       }
     }
   }
 
-  contains (value) {
-    const {current} = this.findWithParent(value)
+  contains (key) {
+    const {current} = this.findWithParent(key)
     return current
   }
 
-  findWithParent (value) {
+  findWithParent (key) {
     let current = this._head
-
     let parent = null
 
     while (current) {
-      if (current.value > value) {
+      if (current.key > key) {
         parent = current
-
         current = current.left || null
-      } else if (current.value < value) {
+      } else if (current.key < key) {
         parent = current
-
         current = current.right || null
       } else {
         break
@@ -74,8 +59,8 @@ class BTree {
     return this._count
   }
 
-  remove (value) {
-    const {current, parent} = this.findWithParent(value)
+  remove (key) {
+    const {current, parent} = this.findWithParent(key)
 
     if (current === null) {
       return false
@@ -83,12 +68,12 @@ class BTree {
 
     this._count--
 
-    //1
+    // 1
     if (current.right === null) {
       if (parent === null) {
         this._head = current.left
       } else {
-        if (parent.value > current.value) {
+        if (parent.key > current.key) {
           parent.left = current.left
         } else {
           parent.right = current.left
@@ -101,7 +86,7 @@ class BTree {
       if (parent === null) {
         this._head = current.right
       } else {
-        if (parent.value > current.value) {
+        if (parent.key > current.key) {
           parent.left = current.right
         } else {
           parent.right = current.right
@@ -124,9 +109,9 @@ class BTree {
       if (parent === null) {
         this._head = leftmost
       } else {
-        if (parent.value > current.value) {
+        if (parent.key > current.key) {
           parent.left = leftmost
-        } else if (parent.value < current.value) {
+        } else if (parent.key < current.key) {
           parent.right = leftmost
         }
       }
@@ -150,7 +135,7 @@ class BTree {
           }
         }
 
-        yield current.value
+        yield current
 
         if (current.right) {
           current = current.right
@@ -159,30 +144,9 @@ class BTree {
           current = stack.pop()
           goLeftNext = false
         }
-
       }
     }
   }
 }
 
 export default PreOrderBTree
-// function run() {
-//     const btree = new BTree()
-//     btree.add(8)
-//     btree.add(5)
-//     btree.add(12)
-//     btree.add(3)
-//     btree.add(7)
-//     btree.add(10)
-//     btree.add(15)
-//
-//     for (let item of btree) {
-//         console.log(item)
-//     }
-//
-//     // console.log(btree.count)
-//
-//     // btree.remove(8)
-//     // console.log(btree.contains(5))
-// }
-//

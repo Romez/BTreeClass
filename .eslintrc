@@ -1,0 +1,22 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "extends": "standard",
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "plugins": [
+
+  ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-trailing-spaces": 1,
+    "no-new": "off",                 // http://eslint.org/docs/rules/no-new
+    "no-undef": "off"                // https://eslint.org/docs/rules/no-undef
+  }
+}

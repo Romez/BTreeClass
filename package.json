@@ -1,0 +1,34 @@
+{
+  "name": "btreeclass",
+  "version": "1.0.0",
+  "description": "BTree helper",
+  "main": "index",
+  "scripts": {
+    "build": "webpack --config webpack.config.js --mode development",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Romez/BTreeClass.git"
+  },
+  "keywords": [
+    "btree",
+    "helper"
+  ],
+  "author": "Ushakov Roman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Romez/BTreeClass/issues"
+  },
+  "homepage": "https://github.com/Romez/BTreeClass#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "jest": "^23.1.0",
+    "webpack": "^4.10.2",
+    "webpack-cli": "^3.0.1"
+  }
+}

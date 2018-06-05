@@ -4,7 +4,8 @@
   "description": "BTree helper",
   "main": "index",
   "scripts": {
-    "build": "webpack --config webpack.config.js --mode development",
+    "dev": "webpack --config webpack.config.js --mode development",
+    "prod": "webpack --config webpack.config.js --mode production",
     "test": "jest"
   },
   "repository": {

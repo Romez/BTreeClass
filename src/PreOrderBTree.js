@@ -1,152 +1,142 @@
-import BTreeNode from './BTreeNode'
+import BTreeNode from './BTreeNode';
 
 class PreOrderBTree {
-  constructor () {
-    this._count = 0
-    this._head = null
+  constructor() {
+    this.count = 0;
+    this.head = null;
   }
 
-  add (key, data = {}) {
-    if (!this._head) {
-      this._head = new BTreeNode(key, data)
+  add(key, data = {}) {
+    if (!this.head) {
+      this.head = new BTreeNode(key, data);
     } else {
-      this.addTo(this._head, key, data)
+      this.addTo(this.head, key, data);
     }
-    this._count++
+
+    this.count += 1;
   }
 
-  addTo (node, key, data) {
+  addTo(node, key, data) {
     if (node.key > key) {
-      if (node.left) {
-        this.addTo(node.left, key, data)
+      if (node.hasLeftBranch()) {
+        this.addTo(node.left, key, data);
       } else {
-        node.left = new BTreeNode(key, data)
+        node.setLeftBranch(new BTreeNode(key, data));
       }
+    } else if (node.right) {
+      this.addTo(node.right, key, data);
     } else {
-      if (node.right) {
-        this.addTo(node.right, key, data)
-      } else {
-        node.right = new BTreeNode(key, data)
-      }
+      node.setRightBranch(new BTreeNode(key, data));
     }
   }
 
-  contains (key) {
-    const {current} = this.findWithParent(key)
-    return current
+  contains(key) {
+    const { current } = this.findWithParent(key);
+    return current;
   }
 
-  findWithParent (key) {
-    let current = this._head
-    let parent = null
+  findWithParent(key) {
+    let current = this.head;
+    let parent = null;
 
     while (current) {
       if (current.key > key) {
-        parent = current
-        current = current.left || null
+        parent = current;
+        current = current.left || null;
       } else if (current.key < key) {
-        parent = current
-        current = current.right || null
+        parent = current;
+        current = current.right || null;
       } else {
-        break
+        break;
       }
     }
 
-    return {current, parent}
+    return { current, parent };
   }
 
-  get count () {
-    return this._count
-  }
-
-  remove (key) {
-    const {current, parent} = this.findWithParent(key)
+  remove(key) {
+    const { current, parent } = this.findWithParent(key);
 
     if (current === null) {
-      return false
+      return false;
     }
 
-    this._count--
+    this.count -= 1;
 
     // 1
     if (current.right === null) {
       if (parent === null) {
-        this._head = current.left
+        this.head = current.left;
+      } else if (parent.key > current.key) {
+        parent.left = current.left;
       } else {
-        if (parent.key > current.key) {
-          parent.left = current.left
-        } else {
-          parent.right = current.left
-        }
+        parent.right = current.left;
       }
       // 2
     } else if (current.right.left === null) {
-      current.right.left = current.left
+      current.right.left = current.left;
 
       if (parent === null) {
-        this._head = current.right
+        this.head = current.right;
+      } else if (parent.key > current.key) {
+        parent.left = current.right;
       } else {
-        if (parent.key > current.key) {
-          parent.left = current.right
-        } else {
-          parent.right = current.right
-        }
+        parent.right = current.right;
       }
     } else {
-      let leftmost = current.right.left
-      let leftmostParent = current.right
+      let leftmost = current.right.left;
+      let leftmostParent = current.right;
 
       while (leftmost.left) {
-        leftmostParent = leftmost
-        leftmost = leftmost.left
+        leftmostParent = leftmost;
+        leftmost = leftmost.left;
       }
 
-      leftmostParent.left = leftmost.right
+      leftmostParent.left = leftmost.right;
 
-      leftmost.left = current.left
-      leftmost.right = current.right
+      leftmost.left = current.left;
+      leftmost.right = current.right;
 
       if (parent === null) {
-        this._head = leftmost
-      } else {
-        if (parent.key > current.key) {
-          parent.left = leftmost
-        } else if (parent.key < current.key) {
-          parent.right = leftmost
-        }
+        this.head = leftmost;
+      } else if (parent.key > current.key) {
+        parent.left = leftmost;
+      } else if (parent.key < current.key) {
+        parent.right = leftmost;
       }
     }
+
+    return true;
   }
 
-  * [Symbol.iterator] () {
-    if (this._head) {
-      const stack = []
-      let current = this._head
+  * [Symbol.iterator]() {
+    if (this.head) {
+      const stack = [];
+      let current = this.head;
 
-      let goLeftNext = true
+      let goLeftNext = true;
 
-      stack.push(current)
+      stack.push(current);
 
       while (stack.length > 0) {
         if (goLeftNext) {
           while (current.left) {
-            stack.push(current)
-            current = current.left
+            stack.push(current); current = current.left;
           }
         }
 
-        yield current
+        yield current;
 
         if (current.right) {
-          current = current.right
-          goLeftNext = true
+          current = current.right;
+          goLeftNext = true;
         } else {
-          current = stack.pop()
-          goLeftNext = false
+          current = stack.pop();
+          goLeftNext = false;
         }
       }
     }
   }
 }
 
-export default PreOrderBTree
+export default PreOrderBTree;

@@ -19,6 +19,10 @@ class BTreeNode {
   hasLeftBranch() {
     return this.left !== null;
   }
+
+  hasRightBranch() {
+    return this.right !== null;
+  }
 }
 
 export default BTreeNode;
